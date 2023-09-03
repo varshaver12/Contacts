@@ -9,7 +9,13 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    private var contacts = [ContactProtocol]()
+    private var contacts: [ContactProtocol] = [] {
+        didSet {
+            contacts.sort { $0.title < $1.title }
+        }
+    }
+    
+    @IBOutlet var tableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,10 +23,43 @@ class ViewController: UIViewController {
         loadContacts()
     }
     
+    @IBAction func showNewContactAlert() {
+        // Create Alert Controller
+        let alertController = UIAlertController(title: "Create a new contact", message: "Enter name and phone number", preferredStyle: .alert)
+        
+        // Add the first text field in Alert Controller
+        alertController.addTextField { textField in
+            textField.placeholder = "Name"
+        }
+        
+        // Add a second text field in Alert Controller
+        alertController.addTextField { textField in
+            textField.placeholder = "Phone number"
+        }
+        
+        // Create buttons
+        // Button for creating a contact
+        let createButton = UIAlertAction(title: "Create", style: .default) { _ in
+            guard let contactName = alertController.textFields?[0].text,
+                  let contactNumber = alertController.textFields?[1].text else {
+                      return
+                  }
+            self.contacts.append(Contact(title: contactName, phone: contactNumber))
+            self.tableView.reloadData()
+        }
+        let cancelButton = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(createButton)
+        alertController.addAction(cancelButton)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
     private func loadContacts() {
         contacts.append(Contact(title: "Aleksey Varshaver", phone: "+79998881212"))
         contacts.append(Contact(title: "Sguschenka Varshaver", phone: "+79008001212"))
     }
+    
 }
 
 extension ViewController: UITableViewDataSource {

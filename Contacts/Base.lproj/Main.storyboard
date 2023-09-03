@@ -28,7 +28,11 @@
                                 <rect key="frame" x="0.0" y="813" width="414" height="49"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="SpF-OC-9Be"/>
-                                    <barButtonItem title="Create contact" id="YCR-9e-KTD"/>
+                                    <barButtonItem title="Create contact" id="YCR-9e-KTD">
+                                        <connections>
+                                            <action selector="showNewContactAlert" destination="BYZ-38-t0r" id="GuB-Tw-7IV"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                         </subviews>
@@ -44,6 +48,9 @@
                             <constraint firstItem="YDm-u7-lQR" firstAttribute="top" secondItem="wp3-vf-YeS" secondAttribute="bottom" id="ytK-EE-MDB"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="wp3-vf-YeS" id="Kub-d2-g58"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
