@@ -9,9 +9,11 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    var storage: ContactStorageProtocol!
     private var contacts: [ContactProtocol] = [] {
         didSet {
             contacts.sort { $0.title < $1.title }
+            storage.save(contacts: contacts)
         }
     }
     
@@ -20,6 +22,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        storage = ContactStorage()
         loadContacts()
     }
     
@@ -56,8 +59,12 @@ class ViewController: UIViewController {
     }
     
     private func loadContacts() {
-        contacts.append(Contact(title: "Aleksey Varshaver", phone: "+79998881212"))
-        contacts.append(Contact(title: "Sguschenka Varshaver", phone: "+79008001212"))
+        contacts = storage.load()
+        /*
+         Тестовый набор данных:
+         contacts.append(Contact(title: "Aleksey Varshaver", phone: "+79998881212"))
+         contacts.append(Contact(title: "Sguschenka Varshaver", phone: "+79008001212"))
+         */
     }
     
 }
